@@ -18,6 +18,12 @@ stage('Execute Nexus Repository')
 {
 sh "${mavenHome}/bin/mvn clean deploy"   
 }
+satge('SendEmail Notification')
+{
+emailext body: '''Build over.
+Thanks & Regards,
+Tejaswini''', subject: 'Build over.', to: 'gangalatejaswini12@gmail.com'
+}
 /*stage('Tomcat Deploy')
 {
 sshagent(['74fed60d-87c2-4bb5-9009-3713ba17f55b']) {
