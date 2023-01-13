@@ -1,0 +1,34 @@
+node
+{
+    
+def mavenHome = tool name: "maven3.8.7"
+stage('CheckoutCode')
+{
+git credentialsId: '6fff976f-0323-4dc4-87a6-0a3d35d04195', url: 'https://github.com/GangalaTejaswini/maven-standalone-application.git'
+}
+stage('Build')
+{
+sh "${mavenHome}/bin/mvn clean package"
+}
+stage('CheckoutCode')
+{
+sh "${mavenHome}/bin/mvn clean sonar:sonar"
+}
+stage('Execute Nexus Repository')
+{
+sh "${mavenHome}/bin/mvn clean deploy"   
+}
+/*stage('Tomcat Deploy')
+{
+sshagent(['74fed60d-87c2-4bb5-9009-3713ba17f55b']) {
+    sh "scp -o StrictHostKeyChecking=no target/SampleWebApp ec2-user@3.110.210.46:/opt/apache-tomcat-9.0.70/webapps/"
+}
+}
+satge('SendEmail Notification')
+{
+emailext body: '''Build over.
+Thanks & Regards,
+Tejaswini''', subject: 'Build over.', to: 'gangalatejaswini12@gmail.com'
+}*/
+
+}
